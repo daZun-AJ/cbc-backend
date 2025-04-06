@@ -82,7 +82,9 @@ export function loginUser(req, res) {
                     })
                 }
             }
-        })
+        }
+    )
+    // testing commit
 }
 
 
