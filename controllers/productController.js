@@ -69,3 +69,31 @@ export async function deleteProduct(req, res) {
 
     
 }
+
+export async function updateProduct(req, res) {
+    if (!isAdmin(req)) {
+        res.status(403).json({
+            message : "You are not authorized to update product"
+        })
+        return
+    }
+
+    const productId = req.params.productId
+
+    const updatingData = req.body
+
+    try {
+        await Product.updateOne(
+            {productId : productId},
+            updatingData
+        )
+
+        res.json({
+            message : "Product updated successfully"
+        })
+    } catch (error) {
+        res.status(500).json({
+            message : "Internal server error"
+        })
+    }
+}
