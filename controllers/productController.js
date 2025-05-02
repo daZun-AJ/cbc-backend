@@ -36,3 +36,53 @@ export async function saveProduct(req, res) {
         })
     }
 }
+
+export async function deleteProduct(req, res) {
+    if (!isAdmin(req)) {
+        res.status(403).json({
+            message : "Unauthorized. Only admin can perform this action"
+        })
+        return
+    }
+
+    try {
+        const productId = req.params.productId
+
+        await Product.deleteOne({ productId : productId })
+        res.status(200).json({
+            message : "Product deleted successfully"
+        })
+    } catch (err) {
+        res.status(500).json({
+            message : "Internal server error",
+            error : err
+        })
+    }
+}
+
+export async function updateProduct(req, res) {
+    if (!isAdmin(req)) {
+        res.status(403).json({
+            message : "Unauthorized. Only admin can perform this action"
+        })
+        return
+    }
+
+    try {
+        const productId = req.params.productId
+        const updatedData = req.body
+
+        await Product.updateOne({ productId : productId}, updatedData)
+
+        res.json({
+            message : "Product updated successfully"
+        })
+
+    } catch (err) {
+        res.status(500).json({
+            message : "Internal server error",
+            error : err
+        })
+    }
+        
+}
