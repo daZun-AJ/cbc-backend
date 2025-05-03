@@ -87,6 +87,24 @@ export function userLogin(req, res) {
         }) 
 }
 
+export async function editUser(req, res) {
+    const email = req.params.email
+    const updatedData = req.body
+
+    try {
+        
+        await User.updateOne({ email : email }, updatedData)
+
+        res.json({
+            message : "User updated successfully"
+        })
+    } catch (err) {
+        res.status(500).json({
+            message : "Internal server error",
+            error : err
+        })
+    }
+}
 
 export function isAdmin(req) {
     if (req.user == null) {
