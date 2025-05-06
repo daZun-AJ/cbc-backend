@@ -1,7 +1,16 @@
 import mongoose from "mongoose";
 
 const reviewSchema = mongoose.Schema({
-    userId : {
+    reviewId : {
+        type : String,
+        required : true,
+        unique : true
+    },
+    email : {
+        type : String,
+        required : true
+    },
+    name : {
         type : String,
         required : true
     },
