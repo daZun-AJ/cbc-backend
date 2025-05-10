@@ -82,9 +82,13 @@ export function userLogin(req, res) {
                         message : "Login successful",
                         token : token
                     })
+                } else {
+                    res.status(401).json({
+                        message : "Invalid password"
+                    })
                 }
             }
-        }) 
+        })
 }
 
 export async function editUser(req, res) {
