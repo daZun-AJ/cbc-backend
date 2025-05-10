@@ -1,6 +1,8 @@
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
 import User from "../models/user.js";
+import dotenv from "dotenv"
+dotenv.config()
 
 
 export async function getUsers(req, res) {
@@ -76,7 +78,7 @@ export function userLogin(req, res) {
                         role : user.role,
                         image : user.image,
                         isBlocked : user.isBlocked
-                    }, "secret-password123")
+                    }, process.env.JWT_KEY)
 
                     res.json({
                         message : "Login successful",
