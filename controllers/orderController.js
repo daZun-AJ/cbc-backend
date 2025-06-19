@@ -1,5 +1,6 @@
 import Order from "../models/order.js";
 import Product from "../models/product.js";
+import { isAdmin } from "./userController.js";
 
 export async function createOrder(req, res) {
     // get user info
@@ -118,4 +119,44 @@ export async function getOrders(req, res) {
             error : err
         })
     }
+}
+
+
+
+export async function updateOrderStatus(req, res) {
+    if (req.user == null) {
+        res.status(403).json({
+            message : "Unauthorized. Please login first"
+        })
+        return
+    }
+    
+    if (!isAdmin(req)) {
+        res.status(403).json({
+            message : "Unauthorized. You are not an admin"
+        })
+        return
+    }
+
+    try {
+        const orderId = req.params.orderId
+        const status = req.params.status
+        
+        await Order.updateOne(
+            { orderId : orderId },
+            { status : status }
+        )
+
+        res.status(200).json({
+            message : "Order status updated successfully"
+        })
+
+    } catch (err) {
+        res.status(500).json({
+            message : "Internal server error",
+            error : err
+        })
+        return
+    }
+    
 }
