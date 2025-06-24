@@ -230,8 +230,7 @@ export async function sendOTP(req, res) {
             })
         } else {
             res.json({
-                message : "OTP sent successfully",
-                otp : randomOTP
+                message : "OTP sent successfully"
             })
         }
     })
